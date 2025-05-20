@@ -1,0 +1,7 @@
+name: mocadr_project2
+channels:
+  - defaults
+dependencies:
+  - python
+  - numpy
+  - matplotlib
