@@ -22,8 +22,7 @@ params = {
 # trzeba będzie dbać o format X, jeżeli wczytywany z pliku!!!
 some_data = generate_data(params)
 
-def initialize_params(data):
-    X = data["data"].copy()
+def initialize_params(X):
     # na wszelki wypadek sobie zmieniamy
     X = np.asarray(X)
     k, w = X.shape
@@ -38,9 +37,23 @@ def initialize_params(data):
         ThetaB[row] = np.sum(mask) / (k * w)
         Theta[row, :] = np.sum(mask, axis=0) / k
 
-    data["Theta"] = Theta
-    data["ThetaB"] = ThetaB
-    return data
+    return Theta, ThetaB
 
-check = initialize_params(some_data)
+check = initialize_params(some_data["data"])
 print(check)
+
+def EM(data, est_alpha = False, max_iter = 20, err = 1e-4):
+    alpha, X = data.values()
+    Theta, ThetaB = initialize_params(X)
+
+    if est_alpha:
+        alpha = 0.5 # zapominamy, że znamy alpha i je estymujemy, a tu inicjalizacja
+
+    dist = 1
+    iter = 0
+    while dist > err or iter < max_iter:
+        if est_alpha:
+            print("Trzeba wyestymować też alpha")
+
+        # te, Z co są równe 1
+        # latent = ...
