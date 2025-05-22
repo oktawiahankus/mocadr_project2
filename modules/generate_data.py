@@ -8,9 +8,6 @@ import numpy as np
 # czy my checemy jakąś osobną funkcję do zamiany
 # danych na json??? (chyba)
 
-# wartości, z których chcemy robić ciągi
-values = np.array([1, 2, 3, 4])
-
 # position weight matrix:
 tmp = np.array([[3/8,1/8,2/8,2/8],[1/10,2/10,3/10,4/10],[1/7,2/7,1/7,3/7]])
 Theta = tmp.T
@@ -28,6 +25,9 @@ params = {
 
 # setup to są te słowniki params
 def generate_data(setup):
+    # wartości, z których chcemy robić ciągi
+    values = np.array([1, 2, 3, 4])
+
     w, alpha, k, Theta, ThetaB = setup.values()
     Theta = np.asarray(Theta)
     ThetaB = np.asarray(ThetaB)
@@ -49,4 +49,4 @@ def generate_data(setup):
     return {"alpha": alpha,
             "data": X}
 
-print(generate_data(params))
+# print(generate_data(params))
