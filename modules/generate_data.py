@@ -32,8 +32,12 @@ def generate_data(setup):
     Theta = np.asarray(Theta)
     ThetaB = np.asarray(ThetaB)
 
-    X = np.random.rand(k, w)
-    mask = X <= alpha
+    X = np.empty((k, w))
+    mask = np.full((k, w), False)
+    # losujemy, z jakiego rozkładu ma pochodzić rząd (próba)
+    probs = np.random.rand(k)
+    chosen_rows = probs <= alpha
+    mask[chosen_rows] = True
 
     for i in range(w):
         col_mask = mask[:,i]

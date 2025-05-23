@@ -16,8 +16,8 @@ ThetaB=np.array([1/4,1/4,1/4,1/4])
 
 params = {
     "w" : 3,
-    "alpha" : 0.7,
-    "k" : 100,
+    "alpha" : 0.1,
+    "k" : 200,
     "Theta" : Theta.tolist(),
     "ThetaB" : ThetaB.tolist()
     }
@@ -51,7 +51,7 @@ def initialize_params(X):
 check = initialize_params(some_data["data"])
 print(check)
 
-def EM(data, est_alpha = False, max_iter = 1000, err = 1e-4):
+def EM(data, est_alpha = False, max_iter = 1000, err = 1e-5):
     alpha, X = data.values()
     Theta, ThetaB = initialize_params(X)
     k, w = X.shape
@@ -109,6 +109,6 @@ def EM(data, est_alpha = False, max_iter = 1000, err = 1e-4):
             "Theta": Theta,
             "ThetaB": ThetaB}
 
-print(EM(some_data, est_alpha=True))
+print(EM(some_data))
 
 
