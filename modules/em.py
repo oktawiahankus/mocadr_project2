@@ -16,14 +16,20 @@ ThetaB=np.array([1/4,1/4,1/4,1/4])
 
 params = {
     "w" : 3,
-    "alpha" : 0.5,
-    "k" : 10,
+    "alpha" : 0.7,
+    "k" : 100,
     "Theta" : Theta.tolist(),
     "ThetaB" : ThetaB.tolist()
     }
 
 # trzeba będzie dbać o format X, jeżeli wczytywany z pliku!!!
 some_data = generate_data(params)
+
+# liczy odległość między rozkładami
+# działa dla Theta i ThetaB
+# dla alpha liczone osobno
+def tv_dist(origin, est):
+    return np.sum(np.sum(np.abs(origin - est), axis = 0) / 2)
 
 def initialize_params(X):
     # na wszelki wypadek sobie zmieniamy
@@ -45,7 +51,7 @@ def initialize_params(X):
 check = initialize_params(some_data["data"])
 print(check)
 
-def EM(data, est_alpha = False, max_iter = 20, err = 1e-4):
+def EM(data, est_alpha = False, max_iter = 1000, err = 1e-4):
     alpha, X = data.values()
     Theta, ThetaB = initialize_params(X)
     k, w = X.shape
@@ -90,11 +96,12 @@ def EM(data, est_alpha = False, max_iter = 20, err = 1e-4):
             ThetaB_est[row] = np.sum(mask * (1 -  latent)) / ThetaB_lam
             Theta_est[row, :] = np.sum(mask * latent, axis=0) / Theta_lam
 
-        # na razie takie sprawdzenie
-        # może trzeba inną odległość ??
-        dist = np.sum((Theta - Theta_est)**2) + np.sum((ThetaB - ThetaB_est)**2) + (alpha - alpha_est)**2
+        if est_alpha:
+            dist = (tv_dist(Theta, Theta_est) + tv_dist(ThetaB, ThetaB_est) + np.abs(alpha - alpha_est) / 2) / (w + 2)
+            alpha = alpha_est
+        else:
+            dist = (tv_dist(Theta, Theta_est) + tv_dist(ThetaB, ThetaB_est)) / (w + 1)
 
-        alpha = alpha_est
         Theta = Theta_est
         ThetaB = ThetaB_est
 
@@ -102,4 +109,6 @@ def EM(data, est_alpha = False, max_iter = 20, err = 1e-4):
             "Theta": Theta,
             "ThetaB": ThetaB}
 
-print(EM(some_data))
+print(EM(some_data, est_alpha=True))
+
+
