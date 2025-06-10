@@ -16,8 +16,8 @@ ThetaB=np.array([1/4,1/4,1/4,1/4])
 
 params = {
     "w" : 3,
-    "alpha" : 0.1,
-    "k" : 200,
+    "alpha" : 0.5,
+    "k" : 800,
     "Theta" : Theta.tolist(),
     "ThetaB" : ThetaB.tolist()
     }

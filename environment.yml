@@ -1,7 +1,9 @@
 name: mocadr_project2
 channels:
   - defaults
+  - jmcmurray
 dependencies:
   - python
   - numpy
   - matplotlib
+  - json
